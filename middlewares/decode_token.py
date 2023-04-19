@@ -7,14 +7,10 @@ security = HTTPBearer()
 
 # Middleware para decodificar token
 def decode_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
-    #try:
+    try:
+        token = credentials.credentials
+        decoded_token = jws.verify(token, 'uzAqLLeWwiZcvzM0h22sGt5onB1b53ea', algorithms=["HS256"])
+        return decoded_token
+    except:
+        raise HTTPException(status_code=401, detail="Token invalido")
     
-    token = credentials.credentials
-    print(token)
-    decoded_token = jws.verify(token, 'uzAqLLeWwiZcvzM0h22sGt5onB1b53ea', algorithms=["HS256"])
-    print(decode_token)
-    return decoded_token
-    #except:
-    #    raise HTTPException(status_code=401, detail="Token invalido")
-    #C:\Users\Luis\Desktop\fastapi-mongo\entorno_virtual\lib\site-packages\jwt\__init__.py
-    #/usr/local/lib/                               python3.11/site-packages/jwt/__init__.py
